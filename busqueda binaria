@@ -1,0 +1,61 @@
+import random
+import time
+
+# busqueda inocente buscando uno por uno en la lista y si es muy larga la lista no es eficiente esta busqueda
+
+
+def busqueda_simple(lista, objetivo):
+    for i in range(len(lista)):
+        if lista[i] == objetivo:
+            return i
+    return -1
+
+
+lista = [2, 6, 8, 2, 5, 4,]
+print(busqueda_simple(lista, 4))
+
+# para una busqueda mas eficiente el la busqueda binaria pero tiene que estar ordenada
+
+
+def busqueda_binaria(lista, objetivo, num_menor=None, num_mayor=None):
+    if num_menor is None:
+        num_menor = 0
+    if num_mayor is None:
+        num_mayor = len(lista)-1
+    if num_mayor < num_menor:
+        return -1
+
+    punto_medio = (num_menor + num_mayor) // 2
+    if list[punto_medio] == objetivo:
+        return punto_medio
+    elif objetivo < lista[punto_medio]:
+        return busqueda_binaria(lista, objetivo, num_menor, punto_medio-1)
+    else:
+        return busqueda_binaria(lista, objetivo, punto_medio+1, num_mayor)
+
+
+# este codigo no se ejecuta cuando no se importa
+
+if __name__ == '__main__':
+  # crear una lista ordenada con 10000 numeros aleatorios
+    tamaño = 10000
+    conjunto_inicial = set()
+
+    while len(conjunto_inicial) < tamaño:
+        conjunto_inicial.add(random.randint(-3*tamaño, 3*tamaño))
+
+    lista_ordenada = sorted(list(conjunto_inicial))
+
+    # Medir el tiempo de búsqueda ingenua.
+    inicio = time.time()
+    for objetivo in lista_ordenada:
+        busqueda_simple(lista_ordenada, objetivo)
+    fin = time.time()
+    print(f"Tiempo de búsqueda simple: {fin - inicio} segundos.")
+
+    # Medir el tiempo de búsqueda binaria.
+    inicio = time.time()
+    for objetivo in lista_ordenada:
+        busqueda_binaria(lista_ordenada, objetivo)
+    fin = time.time()
+    print(f"Tiempo de búsqueda binaria: {fin - inicio} segundos.")
